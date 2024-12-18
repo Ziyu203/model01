@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Model Viewer with Popup</title>
+    <!-- 引入 model-viewer 脚本 -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <!-- 页面样式 -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* model-viewer 样式 */
+        model-viewer {
+            width: 100%;
+            height: 600px;
+            background-color: transparent;
+            z-index: 1; /* 确保模型显示 */
+        }
+
+        /* 手指和文本容器 */
+        .hand-pointer {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .hand-pointer img {
+            width: 80px;
+            height: auto;
+        }
+
+        .hand-pointer p {
+            margin-top: 5px;
+            font-size: 16px;
+        }
+
+        /* 遮罩层样式 */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+        }
+
+        /* 弹窗样式 */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        .popup img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D 模型展示 -->
+    <model-viewer 
+        src="model.glb" 
+        auto-rotate 
+        camera-controls 
+        shadow-intensity="1" 
+        color-space="linear" 
+        style="background-color: transparent;">
+    </model-viewer>
+
+    <!-- 遮罩层 -->
+    <div id="overlay" class="overlay" onclick="closePopup()"></div>
+
+    <!-- 弹窗 -->
+    <div id="popup" class="popup" onclick="closePopup()">
+        <img src="info.png" alt="Popup Content">
+    </div>
+
+    <!-- 手指和文字触发按钮 -->
+    <div class="hand-pointer" onclick="openPopup()">
+        <img src="hand.png" alt="Hand Pointer">
+        <p>Click for more info.</p>
+    </div>
+
+    <!-- JavaScript 功能 -->
+    <script>
+        // 显示弹窗和遮罩层
+        function openPopup() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // 关闭弹窗和遮罩层
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
